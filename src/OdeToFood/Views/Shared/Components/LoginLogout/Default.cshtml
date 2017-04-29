@@ -1,0 +1,29 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">OdeToFood</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <form method="post" asp-controller="Account" , asp-action="Logout" asp-antiforgery="true">
+                    <input class="btn btn-link" type="submit" value="Logout" />
+                </form>
+            </li>
+        </ul>
+    </div>
+
+}
+else
+{
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">OdeToFood</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+            <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+        </ul>
+    </div>
+}
+

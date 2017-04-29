@@ -1,0 +1,17 @@
+﻿@model Restaurant
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="panel">
+    <h1 class="panel-heading">@Model.Name</h1>
+    <div class="panel-body">
+        <div><span>Id: @Model.Id</span></div>
+        <div><span>Cuisine: @Model.Cuisine</span></div>
+    </div>
+
+    <div class="panel-footer">
+        <a class="btn btn-primary" asp-action="Index">Home</a>
+    </div>
+</div>
