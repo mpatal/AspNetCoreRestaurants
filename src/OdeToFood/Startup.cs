@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,12 +17,16 @@ namespace OdeToFood
 {
     public class Startup
     {
+        private IHostingEnvironment _env;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
+
+            _env = env;
 
             Configuration = builder.Build();
         }
@@ -33,6 +38,12 @@ namespace OdeToFood
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            if (_env.IsDevelopment())
+            {
+                services.Configure<MvcOptions>(o => o.Filters.Add(new RequireHttpsAttribute()));
+            }
+
             services.AddAutoMapper();
             services.AddSingleton<IGreeter, Greeter>();
             services.AddSingleton(Configuration);
@@ -70,6 +81,9 @@ namespace OdeToFood
                 {
                     ExceptionHandler = context => context.Response.WriteAsync("Opps!")
                 });
+
+                //force HSTS for production
+                //app.UseHsts(h => h.MaxAge(days: 365));
             }
 
             app.UseFileServer();
